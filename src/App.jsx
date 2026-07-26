@@ -1,40 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return(
-    <div class="calculator">
-    <input type="text" id="display" readonly/>
+    // class = className
+    // onclick = onClick
+    // style="" = style={{}}
 
-    <div class="buttons">
-        <button class="clear" onclick="clearDisplay()">C</button>
-        <button onclick="append('/')">/</button>
-        <button onclick="append('*')">*</button>
-        <button onclick="append('-')">-</button>
+    // Start your server with npm run dev and open the link shown in the terminal to view it in the browser.
 
-        <button onclick="append('7')">7</button>
-        <button onclick="append('8')">8</button>
-        <button onclick="append('9')">9</button>
-        <button onclick="append('+')">+</button>
+    // To push to your github repository, you can use the following commands in your terminal:
+    // git add .
+    // git commit -m "Your commit message"
+    // git push origin main
 
-        <button onclick="append('4')">4</button>
-        <button onclick="append('5')">5</button>
-        <button onclick="append('6')">6</button>
-        <button onclick="append('.')">.</button>
 
-        <button onclick="append('1')">1</button>
-        <button onclick="append('2')">2</button>
-        <button onclick="append('3')">3</button>
-        <button class="equal" onclick="calculate()">=</button>
+    return (
+        <div className="calculator">
+            {/* Make title color white */}
+            <p className="title">Leyin's Calculator</p> 
+            <input type="text" id="display" readOnly />
 
-        <button style="grid-column: span 4;" onclick="append('0')">0</button>
-    </div>
-</div>
+            <div className="buttons">
+                <button className="clear">C</button>
+                <button>/</button>
+                <button >*</button>
+                <button>-</button>
+
+                <button >7</button>
+                <button >8</button>
+                <button >9</button>
+                <button >+</button>
+
+                <button >4</button>
+                <button >5</button>
+                <button >6</button>
+                <button >.</button>
+
+                <button >1</button>
+                <button >2</button>
+                <button >3</button>
+                <button className="equal" >=</button>
+
+                <button style={{ gridColumn: "span 4" }}  >0</button>
+            </div>
+        </div>
     )
 }
 export default App
