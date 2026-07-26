@@ -14,6 +14,9 @@ function App() {
     // git commit -m "Your commit message"
     // git push origin main
 
+    // To pull changes from your github repository, you can use the following command in your terminal:
+    // git pull origin main
+
 
     return (
         <div className="calculator">
