@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
-function App() {
+
 
     // class = className
     // onclick = onClick
@@ -18,36 +18,52 @@ function App() {
     // git pull origin main
 
 
-    return (
-        <div className="calculator">
-            {/* Make title color white */}
-            <p className="title">Leyin's Calculator</p> 
-            <input type="text" id="display" readOnly />
+   function App() {
+  const [displayValue, setDisplayValue] = useState(0);
+   
 
-            <div className="buttons">
-                <button className="clear">C</button>
-                <button>/</button>
-                <button >*</button>
-                <button>-</button>
+  const handleCalcDisplay = (value) =>  {
+     setDisplayValue(value)
+    
+  };
+    
+  return (
+    <div className="calculator">
+      {/* Make title color white */}
+      <p className="title">Leyin's Calculator</p>
 
-                <button >7</button>
-                <button >8</button>
-                <button >9</button>
-                <button >+</button>
+      <input
+        type="text"
+        id="display"
+        readOnly
+        value={displayValue}
+      />
 
-                <button >4</button>
-                <button >5</button>
-                <button >6</button>
-                <button >.</button>
+      <div className="buttons">
+        <button className="clear">C</button>
+        <button>/</button>
+        <button>÷</button>
+        <button>—</button>
 
-                <button >1</button>
-                <button >2</button>
-                <button >3</button>
-                <button className="equal" >=</button>
+        <button onClick={ () => handleCalcDisplay(7)}>7</button>
+        <button onClick={ () => handleCalcDisplay(8)}>8</button>
+        <button onClick={ () => handleCalcDisplay(9)}>9</button>
+        <button>×</button>
 
-                <button style={{ gridColumn: "span 4" }}  >0</button>
-            </div>
-        </div>
-    )
+        <button onClick={ () => handleCalcDisplay(4)}>4</button>
+        <button onClick={ () => handleCalcDisplay(5)}>5</button>
+        <button onClick={ () => handleCalcDisplay(6)}>6</button>
+        <button>-</button>
+
+        <button onClick={() => handleCalcDisplay(1)}>1</button>
+        <button onClick={() => handleCalcDisplay(2)}>2</button>
+        <button onClick={() => handleCalcDisplay(3)}>3</button>
+        <button className="equal">=</button>
+
+        <button style={{ gridColumn: "span 4" }}>0</button>
+      </div>
+    </div>
+  );
 }
-export default App
+
+export default App;
