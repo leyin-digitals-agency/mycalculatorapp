@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import './App.css'
 
@@ -19,13 +20,18 @@ import './App.css'
 
 
    function App() {
-  const [displayValue, setDisplayValue] = useState(0);
+  const [displayValue, setDisplayValue] = useState("0");
+  const [firstValue, setFirstValue] = useState(null);
+  const [operator, setOperator] = useState(null);
+  const [waitingForSecondValue, setWaitingForSecondValue] = useState(false);
    
 
   const handleCalcDisplay = (value) =>  {
-     setDisplayValue(value)
+
     
   };
+
+
     
   return (
     <div className="calculator">
@@ -40,30 +46,31 @@ import './App.css'
       />
 
       <div className="buttons">
-        <button className="clear">C</button>
-        <button>/</button>
-        <button>÷</button>
-        <button>—</button>
+        <button className="clear" onClick={handleClear}>C</button>
+        <button onClick={() => handleOperator("÷")}>/</button>
+        <button onClick={() => handleOperator("÷")}>÷</button>
+        <button onClick={() => handleOperator("-")}>—</button>
 
         <button onClick={ () => handleCalcDisplay(7)}>7</button>
         <button onClick={ () => handleCalcDisplay(8)}>8</button>
         <button onClick={ () => handleCalcDisplay(9)}>9</button>
-        <button>×</button>
+        <button onClick={() => handleOperator("×")}>×</button>
 
         <button onClick={ () => handleCalcDisplay(4)}>4</button>
         <button onClick={ () => handleCalcDisplay(5)}>5</button>
         <button onClick={ () => handleCalcDisplay(6)}>6</button>
-        <button>-</button>
+        <button onClick={() => handleOperator("-")}>-</button>
 
         <button onClick={() => handleCalcDisplay(1)}>1</button>
         <button onClick={() => handleCalcDisplay(2)}>2</button>
         <button onClick={() => handleCalcDisplay(3)}>3</button>
-        <button className="equal">=</button>
+        <button className="equal" onClick={handleEquals}>=</button>
 
-        <button style={{ gridColumn: "span 4" }}>0</button>
+        <button onClick={() => handleCalcDisplay(0)} style={{ gridColumn: "span 4" }}>0</button>
       </div>
     </div>
   );
 }
 
 export default App;
+
