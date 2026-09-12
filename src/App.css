@@ -54,3 +54,7 @@
     .clear {
         background: #dc3545;
     }
+
+    button.active_operator {
+        background: #007bff;
+    }
