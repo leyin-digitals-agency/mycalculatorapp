@@ -20,25 +20,6 @@ import './App.css'
 
 
 
-// const [displayValue, setDisplayValue] = useState(0);
-
-
-//     function displayNumber(number) {
-//         setDisplayValue(number);
-//     }
-
-//     const displayNumber2 = function(number) {
-//         setDisplayValue(number);
-//     }
-
-//     const arrowFunctions = (number) => {
-//         setDisplayValue(number);
-//     }
-
-//assignment 1 = What is an arrow function?
-//2: difference between an arrow function and a regular function
-// 3: Instead of replacing the display value, make it so that the number is added to the current display value. For example, if the current display value is 1 and you click on 2, the display value should become 12. If you click on 3 after that, the display value should become 123.
-
 
 //Assignment
 // 1. Read about operators in JavaScript. List and explain them in a word document:
