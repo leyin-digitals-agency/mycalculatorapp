@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import './App.css'
 
@@ -37,22 +36,52 @@ function App() {
 
     const [displayValue, setDisplayValue] = useState("0");
     const [operator, setOperator] = useState(null);
+    const [firstNumber, setFirstNumber] = useState(null);
+    const [justPickedOperator, setJustPickedOperator] = useState(false);
 
 
     const handleDisplay = (value) => {
-        if (displayValue === "0") {
+        if (displayValue === "0" || justPickedOperator) {
             setDisplayValue(value);
+            setJustPickedOperator(false);
         } else {
             setDisplayValue(displayValue + value);
         }
     };
+    
 
     const handleClear = () => {
         setDisplayValue("0");
+        setOperator(null);
+        setFirstNumber(null);
+        setJustPickedOperator(false);
     }
 
     const handleOperator = (op) => {
+        setFirstNumber(Number(displayValue));
         setOperator(op);
+        setJustPickedOperator(true);
+        setDisplayValue(displayValue + " " + op);
+    }
+
+    const handleEqual = () => {
+        const secondNumber = Number(displayValue.split(" ").pop());
+        let result;
+
+        if (operator === "+") {
+            result = firstNumber + secondNumber;
+        } else if (operator === "-") {
+            result = firstNumber - secondNumber;
+        } else if (operator === "x") {
+            result = firstNumber * secondNumber;
+        } else if (operator === "÷") {
+            result = firstNumber / secondNumber;
+        }
+
+        setDisplayValue(String(result));
+        setOperator(null);
+        setFirstNumber(null);
+        setJustPickedOperator(false);
     }
 
 
@@ -70,30 +99,29 @@ function App() {
 
             <div className="buttons">
                 <button className="clear" onClick={handleClear}>C</button>
-                <button className={operator === "÷" ? 'active_operator' : ''} onClick={() => handleOperator("÷")}>/</button>
-                <button className={operator === "÷" ? 'active_operator' : ''} onClick={() => handleOperator("÷")}>÷</button>
-                <button className={operator === "+" ? 'active_operator' : ''} onClick={() => handleOperator("+")}>+</button>
+                <button className={`operator_btn ${operator === "÷" ? 'active_operator' : ''}`} onClick={() => handleOperator("÷")}>/</button>
+                <button className={`operator_btn ${operator === "÷" ? 'active_operator' : ''}`} onClick={() => handleOperator("÷")}>÷</button>
+                <button className={`operator_btn ${operator === "+" ? 'active_operator' : ''}`} onClick={() => handleOperator("+")}>+</button>
 
                 <button onClick={() => handleDisplay("7")}>7</button>
                 <button onClick={() => handleDisplay("8")}>8</button>
                 <button onClick={() => handleDisplay("9")}>9</button>
-                <button className={operator === "x" ? 'active_operator' : ''} onClick={() => handleOperator("x")}>x</button>
+                <button className={`operator_btn ${operator === "x" ? 'active_operator' : ''}`} onClick={() => handleOperator("x")}>x</button>
 
                 <button onClick={() => handleDisplay("4")}>4</button>
                 <button onClick={() => handleDisplay("5")}>5</button>
                 <button onClick={() => handleDisplay("6")}>6</button>
-                <button className={operator === "-" ? 'active_operator' : ''} onClick={() => handleOperator("-")}>-</button>
+                <button className={`operator_btn ${operator === "-" ? 'active_operator' : ''}`} onClick={() => handleOperator("-")}>-</button>
 
                 <button onClick={() => handleDisplay("1")}>1</button>
                 <button onClick={() => handleDisplay("2")}>2</button>
                 <button onClick={() => handleDisplay("3")}>3</button>
-                <button className="equal" >=</button>
+                <button className="equal" onClick={handleEqual}>=</button>
 
                 <button onClick={() => handleDisplay("0")} style={{ gridColumn: "span 4" }}>0</button>
             </div>
         </div>
-    );
+    );  
 }
 
 export default App;
-
