@@ -26,6 +26,23 @@ import './App.css'
 // 3. Explain why an operator button becomes blue when clicked on
 
 
+const calculate = (a, b, op) => {
+    let result;
+
+    if (op === "+") {
+        result = a + b;
+    } else if (op === "-") {
+        result = a - b;
+    } else if (op === "x") {
+        result = a * b;
+    } else if (op === "/") {
+        result = a / b;
+    }
+
+    return Number(result.toPrecision(15));
+}
+
+
 function App() {
 
     // 1. Display numbers on screen when clicked
@@ -38,50 +55,81 @@ function App() {
     const [operator, setOperator] = useState(null);
     const [firstNumber, setFirstNumber] = useState(null);
     const [justPickedOperator, setJustPickedOperator] = useState(false);
+    const [justCalculated, setJustCalculated] = useState(false);
 
 
     const handleDisplay = (value) => {
-        if (displayValue === "0" || justPickedOperator) {
-            setDisplayValue(value);
+        if (justPickedOperator || justCalculated) {
+            setDisplayValue(value === "." ? "0." : value);
             setJustPickedOperator(false);
+            setJustCalculated(false);
+            return;
+        }
+
+        if (value === "." && displayValue.includes(".")) return;
+
+        if (displayValue === "0" && value !== ".") {
+            setDisplayValue(value);
         } else {
             setDisplayValue(displayValue + value);
         }
     };
-    
+
 
     const handleClear = () => {
         setDisplayValue("0");
         setOperator(null);
         setFirstNumber(null);
         setJustPickedOperator(false);
+        setJustCalculated(false);
+    }
+
+    const showError = () => {
+        handleClear();
+        setDisplayValue("Error");
+        setJustCalculated(true);
     }
 
     const handleOperator = (op) => {
-        setFirstNumber(Number(displayValue));
+        if (justPickedOperator) {
+            setOperator(op);
+            setDisplayValue(firstNumber + " " + op);
+            return;
+        }
+
+        let number = Number(displayValue);
+
+        if (operator !== null) {
+            number = calculate(firstNumber, number, operator);
+        }
+
+        if (!isFinite(number)) {
+            showError();
+            return;
+        }
+
+        setFirstNumber(number);
         setOperator(op);
         setJustPickedOperator(true);
-        setDisplayValue(displayValue + " " + op);
+        setJustCalculated(false);
+        setDisplayValue(number + " " + op);
     }
 
     const handleEqual = () => {
-        const secondNumber = Number(displayValue.split(" ").pop());
-        let result;
+        if (operator === null || justPickedOperator) return;
 
-        if (operator === "+") {
-            result = firstNumber + secondNumber;
-        } else if (operator === "-") {
-            result = firstNumber - secondNumber;
-        } else if (operator === "x") {
-            result = firstNumber * secondNumber;
-        } else if (operator === "÷") {
-            result = firstNumber / secondNumber;
+        const secondNumber = Number(displayValue.split(" ").pop());
+        const result = calculate(firstNumber, secondNumber, operator);
+
+        if (!isFinite(result)) {
+            showError();
+            return;
         }
 
         setDisplayValue(String(result));
         setOperator(null);
         setFirstNumber(null);
-        setJustPickedOperator(false);
+        setJustCalculated(true);
     }
 
 
@@ -89,6 +137,7 @@ function App() {
         <div className="calculator">
             {/* Make title color white */}
             <p className="title">Leyin's Calculator</p>
+
 
             <input
                 type="text"
@@ -98,10 +147,8 @@ function App() {
             />
 
             <div className="buttons">
-                <button className="clear" onClick={handleClear}>C</button>
-                <button className={`operator_btn ${operator === "÷" ? 'active_operator' : ''}`} onClick={() => handleOperator("÷")}>/</button>
-                <button className={`operator_btn ${operator === "÷" ? 'active_operator' : ''}`} onClick={() => handleOperator("÷")}>÷</button>
-                <button className={`operator_btn ${operator === "+" ? 'active_operator' : ''}`} onClick={() => handleOperator("+")}>+</button>
+                <button className="clear" onClick={handleClear} style={{ gridColumn: "span 3" }}>C</button>
+                <button className={`operator_btn ${operator === "/" ? 'active_operator' : ''}`} onClick={() => handleOperator("/")}>/</button>
 
                 <button onClick={() => handleDisplay("7")}>7</button>
                 <button onClick={() => handleDisplay("8")}>8</button>
@@ -116,12 +163,14 @@ function App() {
                 <button onClick={() => handleDisplay("1")}>1</button>
                 <button onClick={() => handleDisplay("2")}>2</button>
                 <button onClick={() => handleDisplay("3")}>3</button>
-                <button className="equal" onClick={handleEqual}>=</button>
+                <button className={`operator_btn ${operator === "+" ? 'active_operator' : ''}`} onClick={() => handleOperator("+")}>+</button>
 
-                <button onClick={() => handleDisplay("0")} style={{ gridColumn: "span 4" }}>0</button>
+                <button onClick={() => handleDisplay("0")} style={{ gridColumn: "span 2" }}>0</button>
+                <button onClick={() => handleDisplay(".")}>.</button>
+                <button className="equal" onClick={handleEqual}>=</button>
             </div>
         </div>
-    );  
+    );
 }
 
 export default App;
